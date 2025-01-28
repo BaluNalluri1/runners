@@ -36,9 +36,31 @@ public class RunController {
     Run findById(@PathVariable Integer id){
         Optional<Run> run = runRepository.findById(id);
         if (run.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+           // throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new RunNotFoundException();
         }
         return run.get();
     }
 
+    //create
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    void create(Run run){
+        runRepository.create(run);
+    }
+
+    //put
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    void update(@RequestBody Run run, @PathVariable Integer id){
+         runRepository.update(run, id);
+    }
+
+
+    //delete
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Integer id){
+        runRepository.delete(id);
+    }
 }
